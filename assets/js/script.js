@@ -37,10 +37,7 @@ function startQuiz() {
 
 }
 
-function selectAnswer(event) {
-    var selectedButton=e.target;
-    var correct = selectedButton.
-}
+
 
 startBtn.addEventListener('click', startQuiz);
 
@@ -95,7 +92,7 @@ var questions= [
 
 var currentQuest =0;
 var ans1 = questions[currentQuest].answers[0];
-var ans2 = questions[currentQuest].answers[1].;
+var ans2 = questions[currentQuest].answers[1].text;
 var ans3 = questions[currentQuest].answers[2].text;
 var ans4 = questions[currentQuest].answers[3].text;
 var currentQuestText=questions[currentQuest].question;
@@ -131,11 +128,6 @@ function ansSelected(event) {
 
 console.log(ansSelected)
 
-
-
-var correct = if(questions[currentQuest].answers.correct){
-    question.[curren]
-}
 
 
     
