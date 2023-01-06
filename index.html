@@ -13,8 +13,8 @@
 <body>
     <main>
         <div class="card">
-            <div class="card-header">
-                <h3>View High Scores</h3>
+            <div id="card-header">
+                <h3><a id="score-click" href="#highscores">High Scores</a></h3>
                 <h3 id="timer">Time: 0</h3>
             </div>
             <div class="card-content">
@@ -55,13 +55,20 @@
                         <div id="response-text"></div>
                     </div>    
                 </div>
+                <div id="highscores"> 
+                    <h1>High Scores</h1>
+                    <ol id="score-list">
+                        
+                    </ol>
+                    <button id="start-over">Start Over</button>  
+                </div>
                 
             </div>
         </div>
         
-    </main>
-    
+    </main>    
     
     <script src="./assets/js/script.js"></script>
+    
 </body>
 </html>

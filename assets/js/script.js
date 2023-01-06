@@ -3,44 +3,17 @@ var quizContent = document.getElementById('quiz');
 var response = document.getElementById('response');
 var quizEnd = document.getElementById('quiz-end')
 var timerEl = document.getElementById('timer');
+var scoresShow = document.getElementById('highscores');
+var cardheader = document.getElementById('card-header');
+var subButton = document.getElementById('submit');
+var initialsInput = document.getElementById('initials');
+var startBtn = document.getElementById('start-btn');
+var startOverBtn = document.getElementById('start-btn');
 var secondsLeft = 60;
 var score = 0;
-
-
-
-function setTime() {
-    // Sets interval in variable
-    var timerInterval = setInterval(function () {
-        secondsLeft--;
-        timerEl.innerHTML = "Time: " + secondsLeft;
-
-        if (secondsLeft === 0) {
-            // Stops execution of action at set interval
-            clearInterval(timerInterval);
-            // Calls function to create and append image
-            endQuiz();
-        }
-
-    }, 1000);
-}
-
-
-function endQuiz() {
-    quizContent.id = 'quiz'
-    quizEnd.id = 'quiz-end-show'
-}
-var startBtn = document.getElementById('start-btn');
-
-function startQuiz() {
-    setTime();
-    startContent.style.display = 'none';
-    quizContent.id = 'quiz-show'
-
-
-}
-
-
-
+var currentQuest = 0;
+var scoreLink = document.getElementById('score-click');
+var highscoreArr = JSON.parse(localStorage.getItem('savedResult')) || [];
 //list of questions for the quiz
 var questions = [
     {
@@ -74,8 +47,46 @@ var questions = [
     }
 ]
 
-var currentQuest = 0;
+function setTime() {
+    // Sets interval in variable
+    var timerInterval = setInterval(function () {
+        secondsLeft--;
+        timerEl.innerHTML = "Time: " + secondsLeft;
 
+        if (secondsLeft === 0) {
+            // Stops execution of action at set interval
+            clearInterval(timerInterval);
+            // Calls function to create and append image
+            endQuiz();
+        }
+
+    }, 1000);
+}
+
+function startQuiz() {
+    
+    //starts timer
+    setTime();
+    //hides quiz start page and displays first questions
+    startContent.style.display = 'none';
+    quizContent.id = 'quiz-show'
+}
+
+
+function endQuiz() {
+
+    //hides quiz questions
+    quizContent.id = 'quiz'
+    //displays quiz results
+    quizEnd.id = 'quiz-end-show'
+}
+
+// refresh page to go back to quiz start page
+function startOver() {
+   document.location.reload()
+}
+
+//display first set of questions
 
 function displayQuestion() {
     var currentQuestText = questions[currentQuest].question;
@@ -101,52 +112,16 @@ function displayQuestion() {
     answerBtn.forEach(function (btn) {
         console.log(btn)
         btn.addEventListener("click", nextQuestion)
-
-        //  btn.onclick = nextQuestion;
-
-    })
-
-    // ans1Button.addEventListener('click', () => {
-    //     ansSelected = ans1
-    //     console.log(ansSelected)
-    //     nextQuestion();
-    // });
-    // ans2Button.addEventListener('click', async () => {
-    //     ansSelected = await ans2
-    //     console.log(ansSelected)
-    //     nextQuestion();
-    // });
-    // ans3Button.addEventListener('click', () => { ansSelected = ans3 });
-    // ans4Button.addEventListener('click', () => { ansSelected = ans4 });
-
-    // ans1Button.addEventListener('click', nextQuestion);
-    // ans2Button.addEventListener('click', nextQuestion);
-    // ans3Button.addEventListener('click', nextQuestion);
-    // ans4Button.addEventListener('click', nextQuestion);
-
+    }) 
 }
+
+//check if answer to previous question is correct and display next question
 
 function nextQuestion() {
 
     var ansCorrect = questions[currentQuest].correct;
     var ansSelected = this.textContent
-    console.log(this.textContent)
-
-
-    console.log(currentQuest);
-    console.log(ansSelected);
-    console.log(ansCorrect);
-
-    /*console.log(ans1);
-    console.log(ans2);
-    console.log(ans3);
-    console.log(ans4);
-
-    */
-
-
-
-
+ 
     if (ansCorrect === ansSelected) {
         document.getElementById('response-text').innerHTML = 'Correct!';
         score++;
@@ -154,43 +129,63 @@ function nextQuestion() {
     } else {
         document.getElementById('response-text').innerHTML = 'Wrong!';
     };
+    
     response.id = 'response-show';
 
     if (currentQuest < questions.length - 1) {
         currentQuest++;
-        displayQuestion();
-        // document.getElementById('prntQuestion').innerHTML = questions[currentQuest].question;
-        // document.getElementById('ans1').innerHTML = questions[currentQuest].answers[0];
-        // document.getElementById('ans2').innerHTML = questions[currentQuest].answers[1];
-        // document.getElementById('ans3').innerHTML = questions[currentQuest].answers[2];
-        // document.getElementById('ans4').innerHTML = questions[currentQuest].answers[3];
-
+        displayQuestion();    
     } else { endQuiz() };
-
-
-
 }
 
-var subButton = document.getElementById('submit');
-var initialsInput = document.getElementById('initials');
-var highscoreArr = JSON.parse(localStorage.getItem('savedResult')) || [];
+
+//pulls scores and initials from local storage and creates high score list
+function listScores() {
+    var scoreArray= JSON.parse(window.localStorage.getItem('savedResult'));
+    var scoreList = document.getElementById('score-list');
+
+    for (let i=0; i<scoreArray.length-1; i++) {
+        var scoreItem = document.createElement('p');
+        var scoreDetail = document.createTextNode(scoreArray[i].initials + ':  ' +scoreArray[i].finalScore)
+        scoreItem.appendChild(scoreDetail);
+        document.getElementById('score-list').appendChild(scoreItem);
+    }
+}
 
 
+//displays high score page with list of high scores
+function showScores() {   
+
+    endQuiz();
+    startContent.style.display = 'none';
+    cardheader.style.display = 'none';
+    quizEnd.id = 'quiz-end'; 
+    scoresShow.id= 'highscores-show';   
+    listScores();    
+}
+
+
+
+//displays first question set when start button is clicked
 startBtn.addEventListener('click', function () {
     startQuiz();
     displayQuestion();
 });
 
+//stores score and initials of quiz to local storage when submit button is clicked on quiz end page
 subButton.addEventListener('click', function (event) {
-
-
 
     var savedResult = {
         initials: initialsInput.value,
         finalScore: score
-    }
+    };
 
-    highscoreArr.push(savedResult)
+    highscoreArr.push(savedResult);
 
     localStorage.setItem('savedResult', JSON.stringify(highscoreArr));
 })
+
+//scoreLink.addEventListener('click',showScores())
+
+//returns user to quiz start page when Start Over button is clicked on high score page
+//startOverBtn.addEventListener('click',startOver());
