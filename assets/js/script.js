@@ -72,7 +72,6 @@ function startQuiz() {
     quizContent.id = 'quiz-show'
 }
 
-
 function endQuiz() {
 
     //hides quiz questions
@@ -81,10 +80,6 @@ function endQuiz() {
     quizEnd.id = 'quiz-end-show'
 }
 
-// refresh page to go back to quiz start page
-function startOver() {
-   document.location.reload()
-}
 
 //display first set of questions
 
@@ -164,7 +159,10 @@ function showScores() {
     listScores();    
 }
 
-
+// refresh page to go back to quiz start page
+function startOver() {
+    document.location.reload();
+ }
 
 //displays first question set when start button is clicked
 startBtn.addEventListener('click', function () {
@@ -185,7 +183,8 @@ subButton.addEventListener('click', function (event) {
     localStorage.setItem('savedResult', JSON.stringify(highscoreArr));
 })
 
-//scoreLink.addEventListener('click',showScores())
+//diplays high score page when high scores link is clicked
+scoreLink.addEventListener('click',showScores())
 
 //returns user to quiz start page when Start Over button is clicked on high score page
 //startOverBtn.addEventListener('click',startOver());
