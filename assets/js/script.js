@@ -8,11 +8,11 @@ var cardheader = document.getElementById('card-header');
 var subButton = document.getElementById('submit');
 var initialsInput = document.getElementById('initials');
 var startBtn = document.getElementById('start-btn');
-var startOverBtn = document.getElementById('start-btn');
+var startOverBtn = document.getElementById('start-over');
+var scoreLink = document.getElementById('score-click');
 var secondsLeft = 60;
 var score = 0;
 var currentQuest = 0;
-var scoreLink = document.getElementById('score-click');
 var highscoreArr = JSON.parse(localStorage.getItem('savedResult')) || [];
 //list of questions for the quiz
 var questions = [
@@ -140,7 +140,7 @@ function listScores() {
     var scoreArray= JSON.parse(window.localStorage.getItem('savedResult'));
     var scoreList = document.getElementById('score-list');
 
-    for (let i=0; i<scoreArray.length-1; i++) {
+    for (let i=0; i<scoreArray.length; i++) {
         var scoreItem = document.createElement('p');
         var scoreDetail = document.createTextNode(scoreArray[i].initials + ':  ' +scoreArray[i].finalScore)
         scoreItem.appendChild(scoreDetail);
@@ -162,7 +162,9 @@ function showScores() {
 
 // refresh page to go back to quiz start page
 function startOver() {
-    document.location.reload();
+    console.log('start over')
+    window.location.reload();
+    
  }
 
 //displays first question set when start button is clicked
@@ -185,7 +187,7 @@ subButton.addEventListener('click', function (event) {
 })
 
 //diplays high score page when high scores link is clicked
-//scoreLink.addEventListener('click',showScores())
+scoreLink.addEventListener('click',showScores)
 
 //returns user to quiz start page when Start Over button is clicked on high score page
-//startOverBtn.addEventListener('click',startOver());
+startOverBtn.addEventListener('click',startOver);
