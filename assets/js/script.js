@@ -51,7 +51,7 @@ function setTime() {
     // Sets interval in variable
     var timerInterval = setInterval(function () {
         secondsLeft--;
-        timerEl.innerHTML = "Time: " + secondsLeft;
+        timerEl.innerHTML = "Time Remaining: " + secondsLeft;
 
         if (secondsLeft === 0) {
             // Stops execution of action at set interval
@@ -123,6 +123,7 @@ function nextQuestion() {
         document.getElementById('score').innerHTML = score;
     } else {
         document.getElementById('response-text').innerHTML = 'Wrong!';
+        secondsLeft=secondsLeft-10;
     };
     
     response.id = 'response-show';
@@ -184,7 +185,7 @@ subButton.addEventListener('click', function (event) {
 })
 
 //diplays high score page when high scores link is clicked
-scoreLink.addEventListener('click',showScores())
+//scoreLink.addEventListener('click',showScores())
 
 //returns user to quiz start page when Start Over button is clicked on high score page
 //startOverBtn.addEventListener('click',startOver());
